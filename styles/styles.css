@@ -1,1 +1,158 @@
 /* CUSTOM STYLES HERE */
+.container {
+  max-width: 1000px;
+}
+
+/* header styles */
+.brand-logo {
+  height: 28px;
+  width: auto;
+}
+
+.main-wrapper {
+  border: 2px solid #f8f8f8;
+  padding: 0;
+  margin-top: 20px;
+}
+
+/* locations styles */
+.location-list {
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+  padding: 15px;
+}
+
+/* active card */
+.location-card.active-card {
+  background-color: #ebeced;
+}
+
+.location-card {
+  margin-right: 20px;
+}
+
+.open-today {
+  color: #2aa876;
+  font-size: 14px;
+}
+
+.phone-row {
+  gap: 6px;
+  font-size: 14px;
+}
+
+.phone-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* map styles */
+.map-panel {
+  min-height: calc(100vh - 220px);
+  position: relative;
+  background: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Overlay Styles */
+.location-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.overlay-content {
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+#modalMapImage {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.static-map {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.map-placeholder {
+  color: #777;
+  font-size: 14px;
+  padding: 18px;
+  text-align: center;
+}
+
+.map-loading,
+.map-error {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.map-error {
+  color: #721c24;
+}
+
+/* Mobile Tabs & Adjustments */
+.mobile-tabs {
+  background: #fff;
+  z-index: 1000;
+}
+
+.mobile-tab {
+  flex: 1;
+  border: none;
+  font-size: 16px;
+  height: 50px;
+  background: #fff;
+  color: #ff9900;
+  font-weight: 500;
+}
+
+.mobile-tab.active {
+  background: #ff9900;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .mobile-bg-dark {
+    background-color: #333;
+  }
+
+  .main-wrapper {
+    margin-top: 0;
+    border: none;
+  }
+
+  /* Make space for the bottom tabs */
+  .location-list {
+    max-height: calc(100vh - 120px);
+    padding-bottom: 70px;
+  }
+
+  .map-panel {
+    min-height: calc(100vh - 120px);
+    padding-bottom: 50px;
+  }
+}

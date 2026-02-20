@@ -1,23 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <title></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <link href="css/styles.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link href="styles/styles.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
 
-        <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-        <script type="text/javascript" src="scripts/scripts.js"></script>
-    </head>
-    <body>
+    <script
+      src="https://code.jquery.com/jquery-4.0.0.min.js"
+      integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="text/javascript" src="scripts/scripts.js"></script>
+  </head>
 
-        <!-- DEMO -->
-        <div class="map-wrap">
-            <img class="map">
+  <body>
+    <header class="mobile-bg-dark">
+      <div
+        class="container py-3 d-flex align-items-center justify-content-between position-relative"
+      >
+        <i class="fa-solid fa-bars text-white fs-4 d-md-none"></i>
+        <div class="d-flex align-items-center gap-2">
+          <img
+            src="assets/rioseo-logo.png"
+            alt="rioseo"
+            class="brand-logo d-none d-md-block"
+          />
+          <img
+            src="assets/rioseo-logo-mobile.png"
+            alt="rioseo"
+            class="brand-logo d-block d-md-none"
+          />
         </div>
-    </body>
+
+        <nav class="d-none d-md-flex align-items-center gap-4 text-muted">
+          <span class="text-muted">Menu</span>
+          <span class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-location-dot"></i>Truck Locator
+          </span>
+        </nav>
+        <i class="fa-solid fa-location-dot text-white fs-4 d-md-none"></i>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container my-4">
+      <h1 class="h4 mb-3 d-none d-md-block" id="resultsTitle">
+        Found 3 Taco Trucks in 92121
+      </h1>
+      <div class="main-wrapper row g-0">
+        <!--LEFT SIDE list-->
+        <section id="listSection" class="col-12 col-md-6">
+          <div id="locationsList" class="location-list">
+            <!--JS RENDER HERE-->
+          </div>
+        </section>
+
+        <!--RIGHT SIDE map-->
+        <section id="mapSection" class="col-12 col-md-6 d-none d-md-block">
+          <div class="map-panel" id="mapPanel">
+            <div class="map-placeholder" id="mapPlaceholder">
+              click a location card to view a map
+            </div>
+
+            <!--loader (hidden until necessary)-->
+            <div
+              class="map-loading d-none d-flex align-items-center justify-content-center"
+              id="mapLoading"
+            >
+              <div class="spinner-border"></div>
+            </div>
+            <!--static map-->
+            <img id="staticMap" class="static-map d-none" alt="Map" />
+
+            <!-- error message -->
+            <div
+              id="mapError"
+              class="map-error d-none flex-column align-items-center justify-content-center p-3 text-center"
+            >
+              <p>Unable to load map. Please try again.</p>
+            </div>
+
+            <!-- Custom Overlay inside Map Panel -->
+            <div id="locationOverlay" class="location-overlay d-none">
+              <div class="overlay-content">
+                <button
+                  type="button"
+                  class="btn-close position-absolute top-0 end-0 m-2"
+                  id="closeOverlayBtn"
+                  aria-label="Close"
+                ></button>
+                <div id="locationOverlayBody"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Mobile Bottom Tabs -->
+    <div class="d-flex d-md-none fixed-bottom shadow-lg mobile-tabs">
+      <button id="btnList" class="mobile-tab active">List</button>
+      <button id="btnMap" class="mobile-tab">Map</button>
+    </div>
+
+    <!-- Location Card Template -->
+    <script id="hb-location-card" type="text/x-handlebars-template">
+      <div class="card mb-3 location-card" data-id="{{id}}">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <h2 class="h6 mb-1">{{name}}</h2>
+            <div class="text-muted small">{{distance}}</div>
+          </div>
+
+          <div class="text-muted small">
+            <div>{{address}}</div>
+            <div>{{city}}, {{state}} {{postal_code}}</div>
+          </div>
+
+          <div class="open-today mt-2">
+            Open today until
+            <span>{{monday_close}}</span>
+          </div>
+
+          <div class="phone-row mt-2 d-flex align-items-center">
+            <img src="assets/phone-icon.png" alt="phone" class="icon" />
+            <a href="tel:{{phone}}">{{phone}}</a>
+          </div>
+
+          <div class="d-grid gap-2 d-sm-flex mt-3">
+            <button
+              class="btn btn-dark flex-fill directions-btn"
+              data-id="{{id}}"
+            >
+              DIRECTIONS
+            </button>
+            <button
+              class="btn btn-dark flex-fill more-info-btn"
+              data-id="{{id}}"
+            >
+              MORE INFO
+            </button>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <!-- Modal overlay template -->
+    <script id="hb-location-modal" type="text/x-handlebars-template">
+      <div class="mb-3">
+        <img
+          id="modalMapImage"
+          class="img-fluid w-100 rounded"
+          alt="Map preview"
+        />
+      </div>
+
+      <h5 class="fw-bold mb-1">{{name}}</h5>
+
+      <div class="text-muted small mb-2">
+        <div>{{address}}</div>
+        <div>{{city}}, {{state}} {{postal_code}}</div>
+      </div>
+
+      <div class="mb-3">
+        <a
+          href="#"
+          id="modalDirectionsLink"
+          class="text-warning small text-decoration-none"
+        >
+          <i class="fa-solid fa-car-alt"></i>
+          Get Directions
+        </a>
+      </div>
+
+      <div class="small" id="modalHours">
+        <div class="d-flex justify-content-between"><span>Monday</span><span
+          >{{monday_open}} - {{monday_close}}</span></div>
+        <div class="d-flex justify-content-between"><span>Tuesday</span><span
+          >{{tuesday_open}} - {{tuesday_close}}</span></div>
+        <div class="d-flex justify-content-between"><span>Wednesday</span><span
+          >{{wednesday_open}} - {{wednesday_close}}</span></div>
+        <div class="d-flex justify-content-between"><span>Thursday</span><span
+          >{{thursday_open}} - {{thursday_close}}</span></div>
+        <div class="d-flex justify-content-between"><span>Friday</span><span
+          >{{friday_open}} - {{friday_close}}</span></div>
+        <div class="d-flex justify-content-between"><span>Saturday</span><span
+          >{{saturday_open}} - {{saturday_close}}</span></div>
+        <div class="d-flex justify-content-between"><span>Sunday</span><span
+          >{{sunday_open}} - {{sunday_close}}</span></div>
+      </div>
+
+      <button class="btn btn-dark w-100 mt-3" id="viewFullDetailsBtn">
+        VIEW FULL DETAILS
+      </button>
+    </script>
+  </body>
 </html>
